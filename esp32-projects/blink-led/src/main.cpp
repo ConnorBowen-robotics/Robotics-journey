@@ -1,18 +1,18 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#define LED_BUILTIN 26
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  pinMode(26, OUTPUT);
+  Serial.begin(115200);
+  Serial.println("ESP32 started");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  digitalWrite(26, HIGH);
+  Serial.println("LED ON");
+  delay(200);
+  digitalWrite(26, LOW);
+  Serial.println("LED OFF");
+  delay(200);
 }

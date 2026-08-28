@@ -5,9 +5,9 @@ class NeuralNetwork:
     # initializing all of the random variables
     def __init__(self):
         #the rate of which it learns
-        self.learning_rate = 0.5
+        self.learning_rate = 0.1
         #how many times it goes through the learning proccess 
-        self.iterations = 10000
+        self.iterations = 50000
         #these are the weights that i use
         #hidden layer
         self.w1 = [[random.uniform(-0.5, 0.5), random.uniform(-0.5, 0.5)], [random.uniform(-0.5, 0.5), random.uniform(-0.5, 0.5)]]
@@ -18,6 +18,25 @@ class NeuralNetwork:
         self.b1 = [random.uniform(-0.5, 0.5), random.uniform(-0.5, 0.5)]
         #output layer
         self.b2 = random.uniform(-0.5, 0.5)
+
+    #this saves the output of the weights to a txt file
+    def save(self, filename = "weights.txt"):
+        self.fout = open(filename, "w")
+        self.fout.write(str(self.w1) + "\n")
+        self.fout.write(str(self.w2) + "\n")
+        self.fout.write(str(self.b1) + "\n")
+        self.fout.write(str(self.b2) + "\n")
+        self.fout.close()
+    
+    #this loads the weights from the weights.txt file or what ever file i feed it 
+    def load(self, filename = "weights.txt"):
+        self.fout = open(filename, "r")
+        weights = self.fout.readlines()
+        self.w1 = eval(weights[0])
+        self.w2 = eval(weights[1])
+        self.b1 = eval(weights[2])
+        self.b2 = eval(weights[3])
+        self.fout.close()
 
     #the activation for learning
     def sigmoid(self, x):
@@ -74,7 +93,9 @@ training_data = [
 
 nn = NeuralNetwork()
 
-for i in range(10000):
+nn.load()
+
+for i in range(nn.iterations):
     total_error = 0
     for inputs, target in training_data:
         error = nn.train(inputs, target)
@@ -87,3 +108,5 @@ print(f"[0,0] -> {nn.forward([0,0])[1]:.4f}")
 print(f"[0,1] -> {nn.forward([0,1])[1]:.4f}")
 print(f"[1,0] -> {nn.forward([1,0])[1]:.4f}")
 print(f"[1,1] -> {nn.forward([1,1])[1]:.4f}")
+
+nn.save()
