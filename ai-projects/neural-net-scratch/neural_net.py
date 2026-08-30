@@ -30,13 +30,16 @@ class NeuralNetwork:
     
     #this loads the weights from the weights.txt file or what ever file i feed it 
     def load(self, filename = "weights.txt"):
-        self.fout = open(filename, "r")
-        weights = self.fout.readlines()
-        self.w1 = eval(weights[0])
-        self.w2 = eval(weights[1])
-        self.b1 = eval(weights[2])
-        self.b2 = eval(weights[3])
-        self.fout.close()
+        try:
+            self.fout = open(filename, "r")
+            weights = self.fout.readlines()
+            self.w1 = eval(weights[0])
+            self.w2 = eval(weights[1])
+            self.b1 = eval(weights[2])
+            self.b2 = eval(weights[3])
+            self.fout.close()
+        except:
+            print("No saved weights found making a new file.")
 
     #the activation for learning
     def sigmoid(self, x):
